@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: backie
+    environment:
+      POSTGRES_DB: backie_db
+      POSTGRES_USER: backie_user
+      POSTGRES_PASSWORD: backie_password 
+    ports:
+      - "5432:5432"
+    volumes:
+      - backie:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  backie:
