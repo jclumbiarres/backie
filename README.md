@@ -24,6 +24,7 @@ Esta es una API REST que implementa funcionalidad básica de gestión de usuario
 ### Base de Datos y Manejo de Datos
 
 - `pog` (>= 3.2.0) - Cliente PostgreSQL para Gleam
+- `squirrel` (>= 3.0.3) - Generador de queries SQL (SQL Builder)
 - `gleam_json` (>= 2.3.0) - Codificación/decodificación JSON
 
 ### Autenticación y Seguridad
