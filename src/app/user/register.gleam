@@ -1,4 +1,4 @@
-import database/user.{type NewUser, CreateUser, insert_user}
+import app/database/user.{type NewUser, CreateUser, insert_user}
 import gleam/dynamic/decode
 import gleam/json
 import gleam/result

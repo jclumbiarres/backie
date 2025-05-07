@@ -1,3 +1,4 @@
+import app/errors/database/query_error.{handle_query_error}
 import app/jwt/cipher
 import sql
 import youid/uuid.{type Uuid}
@@ -31,7 +32,7 @@ pub fn insert_user(db, user: NewUser) -> Result(User, String) {
         [] -> Error("No se pudo insertar el usuario")
       }
     }
-    Error(_) -> Error("Error al insertar usuario")
+    Error(err) -> Error(handle_query_error(err))
   }
 }
 
@@ -48,7 +49,7 @@ pub fn find_user_by_username(db, user: String) -> Result(User, String) {
         }
       }
     }
-    Error(_) -> Error("Error al buscar")
+    Error(err) -> Error(handle_query_error(err))
   }
 }
 
@@ -65,6 +66,6 @@ pub fn find_user_by_email(db, email: String) -> Result(User, String) {
         }
       }
     }
-    Error(_) -> Error("Error al buscar")
+    Error(err) -> Error(handle_query_error(err))
   }
 }

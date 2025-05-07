@@ -1,4 +1,4 @@
-import database/user.{find_user_by_email, find_user_by_username}
+import app/database/user.{find_user_by_email, find_user_by_username}
 import gleam/dynamic/decode
 import gleam/json
 import gleam/result

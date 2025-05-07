@@ -1,3 +1,4 @@
+import app/errors/jwt/validate.{token_validate_error}
 import app/jwt/signer.{validate_token}
 import app/router
 import cors_builder as cors
@@ -8,7 +9,6 @@ import gleam/http
 import gleam/io
 import gleam/result
 
-import gwt
 import mist
 import pog
 import wisp
@@ -44,27 +44,8 @@ pub fn main() {
 
   case validate_token(token_prueba) {
     Ok(_) -> io.println("Token is valid.")
-    Error(err) -> {
-      case err {
-        gwt.MissingHeader -> io.println("Error: Missing header.")
-        gwt.MissingPayload -> io.println("Error: Missing payload.")
-        gwt.MissingSignature -> io.println("Error: Missing signature.")
-        gwt.InvalidHeader -> io.println("Error: Invalid header.")
-        gwt.InvalidPayload -> io.println("Error: Invalid payload.")
-        gwt.InvalidSignature -> io.println("Error: Invalid signature.")
-        gwt.InvalidExpiration -> io.println("Error: Invalid expiration claim.")
-        gwt.TokenExpired -> io.println("Error: Token expired.")
-        gwt.TokenNotValidYet -> io.println("Error: Token not valid yet.")
-        gwt.InvalidNotBefore -> io.println("Error: Invalid not_before claim.")
-        gwt.NoAlg -> io.println("Error: No algorithm specified.")
-        gwt.InvalidAlg -> io.println("Error: Invalid algorithm.")
-        gwt.UnsupportedSigningAlgorithm ->
-          io.println("Error: Unsupported signing algorithm.")
-        gwt.InvalidClaim(_) ->
-          io.println("Error: Invalid claim format or value.")
-        _ -> io.println("Unknown error")
-      }
-    }
+    Error(err) ->
+      io.println("Token validation error: " <> token_validate_error(err))
   }
 
   wisp.configure_logger()
