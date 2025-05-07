@@ -37,6 +37,7 @@ pub fn main() {
       panic as "DATABASE_URL not found"
     }
   }
+
   let token_prueba = signer.generate_refresh_token("joe-bananas")
   // let token_prueba =
   //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2UtYmFuYW5hcyIsIm5iZiI6MTc0NjU1MDg1NSwianRpIjoicmVmcmVzaC0xNzQ2NTUwODU1IiwiaXNzIjoieW91ci1hcHAtbmFtZSIsImlhdCI6MTc0NjU1MDg1NSwiZXhwIjoxNzQ3MTU1NjU1fQ.BFI5jOebigTM_nfM-DLP1uJ6_tLUudsGqUyhxiSpbW-e6C29oIk0fMArzyVn_OV7ogPeVkylZxfZKW53v_hkiA"
@@ -67,7 +68,7 @@ pub fn main() {
 }
 
 pub fn read_connection_uri() -> Result(pog.Connection, Nil) {
-  use database_url <- result.try(envoy.get("DATABASE_URL"))
-  use config <- result.try(pog.url_config(database_url))
-  Ok(pog.connect(config))
+  envoy.get("DATABASE_URL")
+  |> result.then(pog.url_config)
+  |> result.map(pog.connect)
 }
