@@ -109,6 +109,39 @@ where email = $1;"
   |> pog.execute(db)
 }
 
+/// A row you get from running the `find_all_users` query
+/// defined in `./src/sql/find_all_users.sql`.
+///
+/// > 🐿️ This type definition was generated automatically using v3.0.3 of the
+/// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
+///
+pub type FindAllUsersRow {
+  FindAllUsersRow(id: Uuid, username: String, email: String)
+}
+
+/// Runs the `find_all_users` query
+/// defined in `./src/sql/find_all_users.sql`.
+///
+/// > 🐿️ This function was generated automatically using v3.0.3 of
+/// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
+///
+pub fn find_all_users(db) {
+  let decoder = {
+    use id <- decode.field(0, uuid_decoder())
+    use username <- decode.field(1, decode.string)
+    use email <- decode.field(2, decode.string)
+    decode.success(FindAllUsersRow(id:, username:, email:))
+  }
+
+  "select id,
+    username,
+    email
+from users;"
+  |> pog.query
+  |> pog.returning(decoder)
+  |> pog.execute(db)
+}
+
 /// A row you get from running the `insert_user` query
 /// defined in `./src/sql/insert_user.sql`.
 ///

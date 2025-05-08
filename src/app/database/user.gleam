@@ -1,5 +1,6 @@
 import app/errors/database/query_error.{handle_query_error}
 import app/jwt/cipher
+import gleam/result
 import sql
 import youid/uuid.{type Uuid}
 
@@ -50,6 +51,22 @@ pub fn find_user_by_username(db, user: String) -> Result(User, String) {
       }
     }
     Error(err) -> Error(handle_query_error(err))
+  }
+}
+
+pub fn find_user_by_username_v2(db, username: String) -> Result(User, String) {
+  sql.find_user_by_username(db, username)
+  |> result.map_error(handle_query_error)
+  |> result.then(fn(found_user) {
+    found_user.rows
+    |> extract_first_user_row
+  })
+}
+
+fn extract_first_user_row(rows) -> Result(User, String) {
+  case rows {
+    [row, ..] -> Ok(from_find_by_username_row(row))
+    [] -> Error("No se encontraron usuarios")
   }
 }
 
